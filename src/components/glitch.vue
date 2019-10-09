@@ -1,8 +1,17 @@
 <template>
-	<div>
+	<div ref="map">
 
 	</div>
 </template>
+<style lang="scss" scoped>
+  div {
+	width: 100%;
+    height: 100%;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+  }
+</style>
 <script lang="ts">
 import * as THREE from 'three';
 import OrbitControls from 'three-orbitcontrols';
@@ -16,6 +25,8 @@ export default {
 		return {
 			camera: {},
 			controls: {},
+			container: {},
+			containerSize: {},
 			scene: {},
 			renderer: {},
 			effect: {},
@@ -30,12 +41,14 @@ export default {
 		};
 	},
 	mounted() {
+		this.container = this.$refs.map;
+		this.containerSize = this.container.getBoundingClientRect();
 		this.init();
 		this.animate();
 	},
 	methods: {
 		init() {
-			this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+			this.camera = new THREE.PerspectiveCamera(70, this.containerSize.width /this.containerSize.height, 1, 1000);
 			this.camera.position.y = 150;
 			this.camera.position.z = 500;
 
@@ -88,21 +101,23 @@ export default {
 			// Special case: append effect.domElement, instead of renderer.domElement.
 			// AsciiEffect creates a custom domElement (a div container) where the ASCII elements are placed.
 
-			document.body.appendChild(this.effect.domElement);
+			this.container.appendChild(this.effect.domElement);
 
 			this.controls = new OrbitControls(this.camera, this.effect.domElement);
-			this.controls.maxDistance = 200;
+			this.controls.maxDistance = 300;
+			this.controls.enablePan = false;
 			this.controls.maxAzimuthAngle = Math.PI / 6;
 			this.controls.minAzimuthAngle = -Math.PI / 6;
-			this.controls.maxPolarAngle = Math.PI / 2;
-			this.controls.minPolarAngle = Math.PI / 2;
+			this.controls.maxPolarAngle = 2;
+			this.controls.minPolarAngle = 1;
 			this.controls.maxZoom = 100;
 			//
 
 			window.addEventListener('resize', this.onWindowResize, false);
 		},
 		onWindowResize() {
-			const { width, height } = window.document.getBoundingClientRect();
+			this.containerSize = this.container.getBoundingClientRect();
+			const { width, height } = this.containerSize;
 			this.camera.aspect = width / height;
 			this.camera.updateProjectionMatrix();
 
@@ -112,29 +127,30 @@ export default {
 		animate() {
 			requestAnimationFrame(this.animate);
 			this.starField.rotation.z += 0.05;
-			this.render();
-		},
-		render() {
+			this.controls.update();
 			const timer = Date.now() - this.start;
 
 			this.sphere.position.y = Math.abs(Math.sin(timer * 0.002)) * 150;
 			this.sphere.rotation.x = timer * 0.0003;
 			this.sphere.rotation.z = timer * 0.0002;
 
-			this.controls.update();
-
+			this.render();
+		},
+		render() {
 			this.effect.render(this.scene, this.camera);
 		},
+		
 		addLogoSvgs() {
 			this.addTextures(logoE, 'e');
 			this.addTextures(logoX, 'x');
 			this.addTextures(logoA, 'a');
 			this.loadTextures().then(() => {
-				const geometry = new THREE.PlaneGeometry(100, 100);
+				const letterSize = 100;
+				const geometry = new THREE.PlaneGeometry(letterSize, letterSize);
 				const eMaterial = new THREE.MeshBasicMaterial({ map: this.textures.loaded.e });
 				eMaterial.side = THREE.DoubleSide;
 				const eCharacter = new THREE.Mesh(geometry, eMaterial);
-				eCharacter.position.x = -120;
+				eCharacter.position.x = -letterSize * 1.20;
 
 				const xMaterial = new THREE.MeshBasicMaterial({ map: this.textures.loaded.x });
 				xMaterial.side = THREE.DoubleSide;
@@ -144,7 +160,7 @@ export default {
 				const aMaterial = new THREE.MeshBasicMaterial({ map: this.textures.loaded.a });
 				aMaterial.side = THREE.DoubleSide;
 				const aCharacter = new THREE.Mesh(geometry, aMaterial);
-				aCharacter.position.x = 120;
+				aCharacter.position.x = letterSize * 1.20;
 				this.scene.add(eCharacter);
 				this.scene.add(xCharacter);
 				this.scene.add(aCharacter);

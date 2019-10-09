@@ -38,6 +38,8 @@ export default {
 				loaded: {},
 			},
 			Loader: {},
+			maxDistance: 1000,
+			logoGroup: {}
 		};
 	},
 	mounted() {
@@ -85,8 +87,6 @@ export default {
 			const starsMaterial = new THREE.PointsMaterial({ color: 0x888888 });
 
 			this.starField = new THREE.Points(starsGeometry, starsMaterial);
-
-			this.scene.add(this.starField);
 
 			this.addLogoSvgs();
 
@@ -145,12 +145,16 @@ export default {
 			this.addTextures(logoX, 'x');
 			this.addTextures(logoA, 'a');
 			this.loadTextures().then(() => {
-				const letterSize = 100;
+				const totalWidth = this.containerSize.width * 0.25;
+				const letterPercentage = 0.29411764705882355;
+				const letterSize = totalWidth * letterPercentage;
+				const marginPercentage = 0.0588235294117647;
+				const marginSize = totalWidth * marginPercentage;
 				const geometry = new THREE.PlaneGeometry(letterSize, letterSize);
 				const eMaterial = new THREE.MeshBasicMaterial({ map: this.textures.loaded.e });
 				eMaterial.side = THREE.DoubleSide;
 				const eCharacter = new THREE.Mesh(geometry, eMaterial);
-				eCharacter.position.x = -letterSize * 1.20;
+				eCharacter.position.x = -letterSize - marginSize;
 
 				const xMaterial = new THREE.MeshBasicMaterial({ map: this.textures.loaded.x });
 				xMaterial.side = THREE.DoubleSide;
@@ -160,10 +164,13 @@ export default {
 				const aMaterial = new THREE.MeshBasicMaterial({ map: this.textures.loaded.a });
 				aMaterial.side = THREE.DoubleSide;
 				const aCharacter = new THREE.Mesh(geometry, aMaterial);
-				aCharacter.position.x = letterSize * 1.20;
-				this.scene.add(eCharacter);
-				this.scene.add(xCharacter);
-				this.scene.add(aCharacter);
+				aCharacter.position.x = letterSize + marginSize;
+				this.logoGroup = new THREE.Group();
+				this.logoGroup.add(eCharacter);
+				this.logoGroup.add(xCharacter);
+				this.logoGroup.add(aCharacter);
+				this.logoGroup.position.z = -(this.maxDistance * 0.125);
+				this.scene.add(this.logoGroup);
 			});
 		},
 		addTextures(path, id) {

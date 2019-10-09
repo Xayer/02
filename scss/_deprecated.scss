@@ -1,0 +1,113 @@
+
+.inline-block {
+	display: inline-block;
+}
+
+.float-left {
+	   float: left;
+}
+
+.d-table {
+	display: table;
+}
+
+.table-cell {
+	display: table-cell;
+}
+
+.v-align-middle {
+	vertical-align: middle;
+}
+
+.h-align-center {
+	margin: 0 auto;
+	text-align: center;
+}
+.text-right {
+	text-align: right;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.w-50 {
+	width: 50%;
+}
+
+.h-25 {
+	height: 25%;
+}
+.h-50 {
+	height: 50%;
+}
+
+.h-75 {
+	height: 75%;
+}
+
+.h-100 {
+	height: 100%;
+}
+
+.flash-b-w {
+	animation: fromBtoW .5s infinite;
+}
+
+.flash-text {
+	position: relative;
+	animation: .5s glitchyText infinite;
+}
+
+@keyframes glitchyText{
+	0% {
+		text-shadow: 0px 0px  rgb(255, 0, 59), 0px 0px 0px rgb(0, 255, 255);
+	}
+	25% {
+		text-shadow: -5px 5px  rgb(255, 0, 59), 5px 5px rgb(0, 255, 255);
+	}
+	/*50% {
+		text-shadow: 0px -5px  rgb(255, 0, 59), 0px 5px rgb(0, 255, 255);
+	}
+	100% {
+		text-shadow: 0px 5px  rgb(255, 0, 59), 0px -5px 0px rgb(0, 255, 255);
+	}*/
+}
+
+@keyframes fromBtoW{
+	0% {
+		background-color: #FFF;
+		color: #000;
+	}
+
+	50% {
+		background-color: #000;
+		color: #FFF;
+	}
+
+	100% {
+		background-color: #FFF;
+		color: #000;
+	}
+}
+
+.flash-w-b {
+	animation: fromWtoB .5s infinite;
+}
+
+@keyframes fromWtoB{
+	0% {
+		background-color: #000;
+		color: #FFF;
+	}
+
+	50% {
+		background-color: #FFF;
+		color: #000;
+	}
+
+	100% {
+		background-color: #000;
+		color: #FFF;
+	}
+}

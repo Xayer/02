@@ -1,0 +1,36 @@
+const assert = require('assert');
+const RandExp = require('..');
+
+
+describe('Modify Range', () => {
+	it('Should generate unicode when we expand its range', () => {
+		let re = new RandExp(/.{100}/);
+		re.defaultRange.subtract(0, 126);
+		re.defaultRange.add(127, 65535);
+		let output = re.gen();
+		let maxChar = 0;
+		for (var i = 0; i < output.length; i++) {
+			maxChar = Math.max(maxChar, output.charCodeAt(i));
+		}
+		assert.ok(maxChar > 127, 'non-ascii characters should have been generated');
+
+		const r = /.{100}/;
+		r.defaultRange = RandExp.prototype.defaultRange.clone();
+		r.defaultRange.subtract(0, 126);
+		r.defaultRange.add(127, 65535);
+		output = RandExp.randexp(r);
+		maxChar = 0;
+		for (i = 0; i < output.length; i++) {
+			maxChar = Math.max(maxChar, output.charCodeAt(i));
+		}
+		assert.ok(maxChar > 127, 'non-ascii characters should have been generated');
+
+		re = new RandExp(/.{100}/);
+		output = re.gen();
+		maxChar = 0;
+		for (i = 0; i < output.length; i++) {
+			maxChar = Math.max(maxChar, output.charCodeAt(i));
+		}
+		assert.ok(maxChar <= 127, 'ascii characters should have been generated');
+	});
+});

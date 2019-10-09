@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg18"
+   version="1.1"
+   height="797.50244"
+   width="799.5">
+  <metadata
+     id="metadata24">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs22" />
+  <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+  <style style="text/css">
+  #svg_7 { fill: #FFF;}
+  </style>
+  <g
+     transform="translate(-0.5,-0.49996074)"
+     id="g16"><title
+   id="title10">Layer 1</title>
+  <path
+   d="m 1.5,446.50238 297,148.5 h 201 l 300,-148 v 201 l -300,150 h -201 l -298,-152 v -199.5 z M 798,1244.0048 501,1095.5048 H 300 l -300,148 v -201 L 300,892.50476 h 201 l 298,152.00004 v 199.5 z"
+   transform="rotate(180,400,622.25238)"
+   id="svg_7" />
+</g>
+</svg>

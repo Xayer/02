@@ -1,0 +1,26 @@
+.logo-container {
+    margin: 0 auto;
+    width: 90%;
+    max-width: 512px;
+    top: 50%;
+    transform: translateY(-50%);
+    position: relative;
+    text-align: center;
+}
+
+.logo {
+  font-size: 2rem;
+  display: inline-block;
+
+  @include textGlitch("loading", 100,white, black, red, blue, 170, 100);
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#status-bar {
+	position: fixed;
+	top: 0;
+	display: block;
+	right: 15px;
+}

@@ -80,7 +80,7 @@ export default {
 			this.renderer = new THREE.WebGLRenderer();
 			this.renderer.setSize(window.innerWidth, window.innerHeight);
 
-			this.effect = new AsciiEffect(this.renderer, ' .:-+*=%@#', { invert: true });
+			this.effect = new AsciiEffect(this.renderer, ' .:-+*=%@#', { invert: true, alpha: true });
 			this.effect.setSize(window.innerWidth, window.innerHeight);
 			this.effect.domElement.style.color = 'white';
 			this.effect.domElement.style.backgroundColor = 'black';
@@ -102,15 +102,16 @@ export default {
 			window.addEventListener('resize', this.onWindowResize, false);
 		},
 		onWindowResize() {
-			this.camera.aspect = window.innerWidth / window.innerHeight;
+			const { width, height } = window.document.getBoundingClientRect();
+			this.camera.aspect = width / height;
 			this.camera.updateProjectionMatrix();
 
-			this.renderer.setSize(window.innerWidth, window.innerHeight);
-			this.effect.setSize(window.innerWidth, window.innerHeight);
+			this.renderer.setSize(width, height);
+			this.effect.setSize(width, height);
 		},
 		animate() {
 			requestAnimationFrame(this.animate);
-			this.starField.rotation.z += 0.005;
+			this.starField.rotation.z += 0.05;
 			this.render();
 		},
 		render() {
@@ -129,7 +130,6 @@ export default {
 			this.addTextures(logoX, 'x');
 			this.addTextures(logoA, 'a');
 			this.loadTextures().then(() => {
-				console.log(logoX, 'hello!!!');
 				const geometry = new THREE.PlaneGeometry(100, 100);
 				const eMaterial = new THREE.MeshBasicMaterial({ map: this.textures.loaded.e });
 				eMaterial.side = THREE.DoubleSide;
